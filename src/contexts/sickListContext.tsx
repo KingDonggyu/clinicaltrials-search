@@ -17,6 +17,11 @@ export function SickListProvider({ children }: { children: ReactNode }) {
   const [sickList, setSickList] = useState<Sick[]>([]);
 
   const searchSickList = async (query: string) => {
+    if (query === '') {
+      setSickList([]);
+      return;
+    }
+
     const searched = await sickRepository.search(query);
     setSickList(searched);
   };

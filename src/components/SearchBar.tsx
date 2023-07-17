@@ -1,15 +1,28 @@
+import { ChangeEvent, useState } from 'react';
 import colors from 'constants/colors';
 import usePopover from 'hooks/usePopover';
 import { SearchList } from './SearchList';
 import { SearchIcon } from './Icon';
 
-export function SearchBar() {
+interface SearchBarProps {
+  searchList: string[];
+  onChangeSearchKeyword: (query: string) => void;
+}
+
+export function SearchBar({ searchList, onChangeSearchKeyword }: SearchBarProps) {
   const { Popover, showPopover, hidePopover } = usePopover();
+  const [hasSearchWord, setHasSearchWord] = useState(false);
+
+  const handleChangeSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
+    onChangeSearchKeyword(e.target.value);
+    setHasSearchWord(Boolean(e.target.value));
+  };
 
   return (
     <div>
       <form
         method="get"
+        onSubmit={e => e.preventDefault()}
         css={{
           display: 'flex',
           alignItems: 'center',
@@ -39,6 +52,7 @@ export function SearchBar() {
             autoComplete="off"
             onFocus={showPopover}
             onBlur={hidePopover}
+            onChange={handleChangeSearchKeyword}
             css={{
               width: '100%',
               border: 'none',
@@ -61,7 +75,7 @@ export function SearchBar() {
         </button>
       </form>
       <Popover css={{ marginTop: '0.5em' }}>
-        <SearchList searchList={['123']} />
+        <SearchList title="추천 검색어" searchList={searchList} hasSearchWord={hasSearchWord} />
       </Popover>
     </div>
   );

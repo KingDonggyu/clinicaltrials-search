@@ -3,9 +3,19 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import App from 'App';
-import { ClinicaltrialsSearchPage } from 'pages/clinicaltrialsSearchPage';
+import { ClinicaltrialsSearchPage } from 'pages/ClinicaltrialsSearchPage';
+import { SickListProvider } from 'contexts/SickListContext';
 
-const router = createBrowserRouter([{ path: '/', element: <ClinicaltrialsSearchPage /> }]);
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: (
+      <SickListProvider>
+        <ClinicaltrialsSearchPage />
+      </SickListProvider>
+    ),
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

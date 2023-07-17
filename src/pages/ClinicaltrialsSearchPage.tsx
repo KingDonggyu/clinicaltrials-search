@@ -1,7 +1,13 @@
 import { SearchBar } from 'components/SearchBar';
 import colors from 'constants/colors';
+import { useSickListContext } from 'contexts/SickListContext';
+import { useMemo } from 'react';
 
 export function ClinicaltrialsSearchPage() {
+  const { sickList, searchSickList } = useSickListContext();
+
+  const searchedSickList = useMemo(() => sickList.map(({ sickNm }) => sickNm), [sickList]);
+
   return (
     <main
       css={{
@@ -18,7 +24,7 @@ export function ClinicaltrialsSearchPage() {
         <br />
         온라인으로 참여하기
       </h1>
-      <SearchBar />
+      <SearchBar searchList={searchedSickList} onChangeSearchKeyword={searchSickList} />
     </main>
   );
 }
