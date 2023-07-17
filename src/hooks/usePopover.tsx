@@ -13,9 +13,12 @@ function usePopover() {
   };
 
   const Popover = useMemo(() => {
-    return ({ children, ...boxProps }: PopoverProps) => {
-      return isShow ? <Box {...boxProps}>{children}</Box> : null;
-    };
+    return ({ children, ...boxProps }: PopoverProps) =>
+      isShow && (
+        <Box onMouseDown={e => e.preventDefault()} {...boxProps}>
+          {children}
+        </Box>
+      );
   }, [isShow]);
 
   return { Popover, showPopover, hidePopover };
