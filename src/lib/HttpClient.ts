@@ -9,12 +9,12 @@ class HttpClient {
     });
   }
 
-  async get<Response = unknown>(url: string, config?: AxiosRequestConfig) {
+  protected async get<Response = unknown>(url: string, config?: AxiosRequestConfig) {
     const res = await this.axios.get<Response>(url, config);
     return res.data;
   }
 
-  async post<Response = unknown, Request = any>(url: string, body?: Request) {
+  protected async post<Response = unknown, Request = any>(url: string, body?: Request) {
     const res = await this.axios.post<Response>(url, body);
     return res.data;
   }
