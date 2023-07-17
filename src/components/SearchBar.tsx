@@ -1,6 +1,7 @@
-import searchIconSrc from 'assets/search.svg';
 import colors from 'constants/colors';
 import usePopover from 'hooks/usePopover';
+import { SearchList } from './SearchList';
+import { SearchIcon } from './Icon';
 
 export function SearchBar() {
   const { Popover, showPopover, hidePopover } = usePopover();
@@ -31,7 +32,7 @@ export function SearchBar() {
             borderBottomLeftRadius: BORDER_RADIUS,
           }}
         >
-          <img src={searchIconSrc} width="20px" alt="검색" />
+          <SearchIcon width="20px" alt="검색창" />
           <input
             type="search"
             name="q"
@@ -39,7 +40,7 @@ export function SearchBar() {
             onFocus={showPopover}
             onBlur={hidePopover}
             css={{
-              flexGrow: 1,
+              width: '100%',
               border: 'none',
               ':focus': { outline: 'none' },
             }}
@@ -53,12 +54,15 @@ export function SearchBar() {
             height: '100%',
             fontWeight: 'bold',
             background: 'none',
+            padding: '1.2em',
           }}
         >
           검색
         </button>
       </form>
-      <Popover css={{ marginTop: '0.5em' }}>검색어 없음</Popover>
+      <Popover css={{ marginTop: '0.5em' }}>
+        <SearchList searchList={['123']} />
+      </Popover>
     </div>
   );
 }

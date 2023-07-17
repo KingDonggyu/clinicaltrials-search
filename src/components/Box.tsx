@@ -11,7 +11,6 @@ export function Box({ hasShadow = true, children, ...props }: BoxProps) {
     <div
       css={{
         background: colors.background,
-        padding: '2em',
         borderRadius: '1.3em',
         boxShadow: hasShadow ? 'rgba(0, 0, 0, 0.08) 2px 4px 12px' : 'none',
       }}
