@@ -11,11 +11,13 @@ class HttpClient {
 
   protected async get<Response = unknown>(url: string, config?: AxiosRequestConfig) {
     const res = await this.axios.get<Response>(url, config);
+    console.info('calling api');
     return res.data;
   }
 
   protected async post<Response = unknown, Request = any>(url: string, body?: Request) {
     const res = await this.axios.post<Response>(url, body);
+    console.info('calling api');
     return res.data;
   }
 }

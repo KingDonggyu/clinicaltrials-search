@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useState } from 'react';
+import { ReactNode, createContext, useCallback, useContext, useMemo, useState } from 'react';
 import SickRepository from 'repository/api/SickRepository';
 import { Sick } from 'sick';
 
@@ -13,18 +13,21 @@ const SickListContext = createContext<SickListContextValue>({
 });
 
 export function SickListProvider({ children }: { children: ReactNode }) {
-  const sickRepository = new SickRepository();
+  const sickRepository = useMemo(() => new SickRepository(), []);
   const [sickList, setSickList] = useState<Sick[]>([]);
 
-  const searchSickList = async (query: string) => {
-    if (query === '') {
-      setSickList([]);
-      return;
-    }
+  const searchSickList = useCallback(
+    async (query: string) => {
+      if (query === '') {
+        setSickList([]);
+        return;
+      }
 
-    const searched = await sickRepository.search(query);
-    setSickList(searched);
-  };
+      const searched = await sickRepository.search(query);
+      setSickList(searched);
+    },
+    [sickRepository]
+  );
 
   return <SickListContext.Provider value={{ sickList, searchSickList }}>{children}</SickListContext.Provider>;
 }

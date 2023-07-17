@@ -15,7 +15,7 @@ export function ClinicaltrialsSearchPage() {
         padding: '4em 2em',
         display: 'flex',
         flexDirection: 'column',
-        gap: '1.5em',
+        gap: '3em',
         height: '100vh',
       }}
     >
@@ -24,7 +24,11 @@ export function ClinicaltrialsSearchPage() {
         <br />
         온라인으로 참여하기
       </h1>
-      <SearchBar searchList={searchedSickList} onChangeSearchKeyword={searchSickList} />
+      <SearchBar
+        searchList={searchedSickList}
+        placeholder="질환명을 입력해 주세요."
+        onChangeSearchKeyword={searchSickList}
+      />
     </main>
   );
 }

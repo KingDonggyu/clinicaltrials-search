@@ -1,22 +1,30 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import colors from 'constants/colors';
 import usePopover from 'hooks/usePopover';
 import { SearchList } from './SearchList';
 import { SearchIcon } from './Icon';
+import useDebounce from 'hooks/useDebounce';
 
 interface SearchBarProps {
   searchList: string[];
+  placeholder?: string;
   onChangeSearchKeyword: (query: string) => void;
 }
 
-export function SearchBar({ searchList, onChangeSearchKeyword }: SearchBarProps) {
+export function SearchBar({ searchList, placeholder, onChangeSearchKeyword }: SearchBarProps) {
   const { Popover, showPopover, hidePopover } = usePopover();
-  const [hasSearchWord, setHasSearchWord] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const handleChangeSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
-    onChangeSearchKeyword(e.target.value);
-    setHasSearchWord(Boolean(e.target.value));
+    setSearchKeyword(e.target.value);
   };
+
+  const handleSearchDebounce = useCallback(
+    () => onChangeSearchKeyword(searchKeyword),
+    [onChangeSearchKeyword, searchKeyword]
+  );
+
+  useDebounce({ value: searchKeyword, onDebounce: handleSearchDebounce });
 
   return (
     <div>
@@ -50,6 +58,7 @@ export function SearchBar({ searchList, onChangeSearchKeyword }: SearchBarProps)
             type="search"
             name="q"
             autoComplete="off"
+            placeholder={placeholder}
             onFocus={showPopover}
             onBlur={hidePopover}
             onChange={handleChangeSearchKeyword}
@@ -57,6 +66,7 @@ export function SearchBar({ searchList, onChangeSearchKeyword }: SearchBarProps)
               width: '100%',
               border: 'none',
               ':focus': { outline: 'none' },
+              '::placeholder': { color: colors.grey500 },
             }}
           />
         </div>
@@ -75,7 +85,7 @@ export function SearchBar({ searchList, onChangeSearchKeyword }: SearchBarProps)
         </button>
       </form>
       <Popover css={{ marginTop: '0.5em' }}>
-        <SearchList title="추천 검색어" searchList={searchList} hasSearchWord={hasSearchWord} />
+        <SearchList title="추천 검색어" searchList={searchList} hasSearchWord={Boolean(searchKeyword)} />
       </Popover>
     </div>
   );
