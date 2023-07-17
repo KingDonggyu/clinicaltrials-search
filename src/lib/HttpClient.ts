@@ -1,7 +1,7 @@
 import Axios, { AxiosRequestConfig } from 'axios';
 
 class HttpClient {
-  protected axios;
+  private axios;
 
   constructor() {
     this.axios = Axios.create({
