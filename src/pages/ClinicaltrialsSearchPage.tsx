@@ -11,11 +11,12 @@ export function ClinicaltrialsSearchPage() {
     <main
       css={{
         background: colors.blue100,
-        padding: '4em 2em',
+        padding: '2em',
         display: 'flex',
         flexDirection: 'column',
-        gap: '3em',
-        height: '100vh',
+        gap: '2em',
+        minHeight: '100vh',
+        height: 'max-content',
       }}
     >
       <h1 css={{ fontSize: '1.8em', fontWeight: 'bold', textAlign: 'center', lineHeight: 1.6 }}>

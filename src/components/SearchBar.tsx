@@ -1,9 +1,9 @@
 import { ChangeEvent, useCallback, useState } from 'react';
 import colors from 'constants/colors';
 import usePopover from 'hooks/usePopover';
-import { SearchList } from './SearchList';
-import { SearchIcon } from './Icon';
 import useDebounce from 'hooks/useDebounce';
+import { SearchDropdown } from './SearchDropdown';
+import { SearchIcon } from './Icon';
 
 interface SearchBarProps {
   searchList: string[];
@@ -85,7 +85,7 @@ export function SearchBar({ searchList, placeholder, onChangeSearchKeyword }: Se
         </button>
       </form>
       <Popover css={{ marginTop: '0.5em' }}>
-        <SearchList title="추천 검색어" searchList={searchList} hasSearchWord={Boolean(searchKeyword)} />
+        <SearchDropdown title="추천 검색어" searchList={searchList} hasSearchWord={Boolean(searchKeyword)} />
       </Popover>
     </div>
   );

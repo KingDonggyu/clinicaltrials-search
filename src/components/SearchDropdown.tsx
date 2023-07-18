@@ -1,0 +1,86 @@
+import { useEffect, useRef } from 'react';
+import colors from 'constants/colors';
+import { useUpDownKeyboardNavigation } from 'hooks/useUpDownKeyboardNavigation';
+import { SearchIcon } from './Icon';
+
+interface SearchListProps {
+  title?: string;
+  hasSearchWord: boolean;
+  searchList: string[];
+}
+
+export function SearchDropdown({ title, hasSearchWord, searchList }: SearchListProps) {
+  return (
+    <div css={{ padding: '1.2em 0' }}>
+      {hasSearchWord ? (
+        <>
+          <p css={{ marginTop: 0, ...PARAGRAPH_STYLE }}>{title}</p>
+          <SearchList searchList={searchList} />
+        </>
+      ) : (
+        <p css={{ margin: 0, ...PARAGRAPH_STYLE }}>검색어 없음</p>
+      )}
+    </div>
+  );
+}
+
+function SearchList({ searchList }: { searchList: string[] }) {
+  const [selectedIndex, setSelectedIndex] = useUpDownKeyboardNavigation({
+    size: searchList.length - 1,
+  });
+
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [searchList, setSelectedIndex]);
+
+  return (
+    <ul css={{ marginBottom: 0 }}>
+      {searchList.map((word, index) => (
+        <SearchItem
+          key={word}
+          word={word}
+          isFocus={selectedIndex === index}
+          onMouseEnter={() => setSelectedIndex(index)}
+        />
+      ))}
+    </ul>
+  );
+}
+
+interface SearchItemProps {
+  word: string;
+  isFocus: boolean;
+  onMouseEnter?: () => void;
+}
+
+function SearchItem({ word, isFocus, onMouseEnter }: SearchItemProps) {
+  const ref = useRef<HTMLLIElement>(null);
+
+  return (
+    <li
+      ref={ref}
+      tabIndex={0}
+      onMouseEnter={onMouseEnter}
+      css={{
+        padding: `12px ${PADDING_HORIZONTAL}`,
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        outline: 'none',
+        background: isFocus ? colors.grey100 : 'inherit',
+      }}
+    >
+      <SearchIcon width="20px" alt="검색어" css={{ filter: 'opacity(0.3)' }} />
+      <span>{word}</span>
+    </li>
+  );
+}
+
+const PADDING_HORIZONTAL = '1.5em';
+
+const PARAGRAPH_STYLE = {
+  fontSize: '0.9em',
+  color: colors.grey600,
+  padding: `0 ${PADDING_HORIZONTAL}`,
+};
