@@ -1,11 +1,10 @@
+import { useMemo } from 'react';
 import { SearchBar } from 'components/SearchBar';
 import colors from 'constants/colors';
-import { useSickListContext } from 'contexts/SickListContext';
-import { useMemo } from 'react';
+import { useSickListContext } from 'contexts/sickListContext';
 
 export function ClinicaltrialsSearchPage() {
   const { sickList, searchSickList } = useSickListContext();
-
   const searchedSickList = useMemo(() => sickList.map(({ sickNm }) => sickNm), [sickList]);
 
   return (

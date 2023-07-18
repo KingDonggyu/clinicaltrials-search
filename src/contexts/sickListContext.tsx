@@ -1,4 +1,5 @@
-import { ReactNode, createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { ReactNode, createContext, useCallback, useContext, useMemo } from 'react';
+import { useQuery } from 'lib/react-cache';
 import SickRepository from 'repository/api/SickRepository';
 import { Sick } from 'sick';
 
@@ -14,22 +15,32 @@ const SickListContext = createContext<SickListContextValue>({
 
 export function SickListProvider({ children }: { children: ReactNode }) {
   const sickRepository = useMemo(() => new SickRepository(), []);
-  const [sickList, setSickList] = useState<Sick[]>([]);
-
   const searchSickList = useCallback(
     async (query: string) => {
-      if (query === '') {
-        setSickList([]);
-        return;
-      }
-
-      const searched = await sickRepository.search(query);
-      setSickList(searched);
+      const searched = query ? await sickRepository.search(query) : [];
+      return searched;
     },
     [sickRepository]
   );
 
-  return <SickListContext.Provider value={{ sickList, searchSickList }}>{children}</SickListContext.Provider>;
+  const { data: sickList, fetch: fetchSickList } = useQuery<Sick[], string>(searchSickList);
+  const searchSickListWithCache = useCallback(
+    (query: string) => {
+      return fetchSickList(query, { queryKey: `/sickList/${query}`, expireTime: 120 * 6000 });
+    },
+    [fetchSickList]
+  );
+
+  return (
+    <SickListContext.Provider
+      value={{
+        sickList: sickList || [],
+        searchSickList: searchSickListWithCache,
+      }}
+    >
+      {children}
+    </SickListContext.Provider>
+  );
 }
 
 export function useSickListContext() {
