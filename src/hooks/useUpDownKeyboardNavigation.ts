@@ -5,6 +5,10 @@ export function useUpDownKeyboardNavigation({ size }: { size: number }): [number
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.isComposing) {
+        return;
+      }
+
       if (event.key === 'ArrowUp') {
         event.preventDefault();
         setSelectedIndex(prevIndex => Math.max(0, prevIndex - 1));
