@@ -78,7 +78,6 @@ export function SearchBar({ searchList, placeholder, onChangeSearchKeyword }: Se
             height: '100%',
             fontWeight: 'bold',
             background: 'none',
-            padding: '1.2em',
           }}
         >
           검색

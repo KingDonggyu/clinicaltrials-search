@@ -62,11 +62,11 @@ function SearchItem({ word, isFocus, onMouseEnter }: SearchItemProps) {
       tabIndex={0}
       onMouseEnter={onMouseEnter}
       css={{
-        padding: `12px ${PADDING_HORIZONTAL}`,
+        padding: `0.7em ${PADDING_HORIZONTAL}`,
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
-        gap: '10px',
+        gap: '0.7em',
         outline: 'none',
         background: isFocus ? colors.grey100 : 'inherit',
       }}

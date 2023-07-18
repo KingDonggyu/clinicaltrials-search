@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import mediaQueries from 'constants/mediaQueries';
 import normalize from 'emotion-normalize';
 
 export const globalStyle = css`
@@ -45,5 +46,11 @@ export const globalStyle = css`
   button {
     cursor: pointer;
     border: none;
+  }
+
+  ${mediaQueries.mobile} {
+    html {
+      font-size: 65%;
+    }
   }
 `;

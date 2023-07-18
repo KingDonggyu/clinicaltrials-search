@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { SearchBar } from 'components/SearchBar';
 import colors from 'constants/colors';
+import mediaQueries from 'constants/mediaQueries';
 import { useSickListContext } from 'contexts/sickListContext';
 
 export function ClinicaltrialsSearchPage() {
@@ -17,6 +18,9 @@ export function ClinicaltrialsSearchPage() {
         gap: '2em',
         minHeight: '100vh',
         height: 'max-content',
+        [mediaQueries.mobile]: {
+          padding: '5em 2em',
+        },
       }}
     >
       <h1 css={{ fontSize: '1.8em', fontWeight: 'bold', textAlign: 'center', lineHeight: 1.6 }}>
