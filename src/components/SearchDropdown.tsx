@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import colors from 'constants/colors';
 import { useUpDownKeyboardNavigation } from 'hooks/useUpDownKeyboardNavigation';
 import { SearchIcon } from './Icon';
@@ -36,12 +36,7 @@ function SearchList({ searchList }: { searchList: string[] }) {
   return (
     <ul css={{ marginBottom: 0 }}>
       {searchList.map((word, index) => (
-        <SearchItem
-          key={word}
-          word={word}
-          isFocus={selectedIndex === index}
-          onMouseEnter={() => setSelectedIndex(index)}
-        />
+        <SearchItem key={word} word={word} isSelected={selectedIndex === index} />
       ))}
     </ul>
   );
@@ -49,26 +44,20 @@ function SearchList({ searchList }: { searchList: string[] }) {
 
 interface SearchItemProps {
   word: string;
-  isFocus: boolean;
-  onMouseEnter?: () => void;
+  isSelected: boolean;
 }
 
-function SearchItem({ word, isFocus, onMouseEnter }: SearchItemProps) {
-  const ref = useRef<HTMLLIElement>(null);
-
+function SearchItem({ word, isSelected }: SearchItemProps) {
   return (
     <li
-      ref={ref}
       tabIndex={0}
-      onMouseEnter={onMouseEnter}
       css={{
-        padding: `0.7em ${PADDING_HORIZONTAL}`,
-        cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
         gap: '0.7em',
         outline: 'none',
-        background: isFocus ? colors.grey100 : 'inherit',
+        padding: `0.7em ${PADDING_HORIZONTAL}`,
+        background: isSelected ? colors.grey100 : 'inherit',
       }}
     >
       <SearchIcon width="20px" alt="검색어" css={{ filter: 'opacity(0.3)' }} />
